@@ -1,0 +1,42 @@
+pipeline {
+    
+    agent any
+    
+    parameters{
+        choice(name: 'ENVIRONMENT', choices:['QA','DEV','PROD'], description: 'select the deployment environment')
+        choice(name: 'PLATFORM', choices:['LINUX','WINDOW','MAC'], description: 'select the platform')
+        choice(name: 'BROWSER', choices:['CHROME','FF','EDGE'], description: 'select the browser for running')
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                echo "Creating Build for ${params.ENVIRONMENT} on ${params.PLATFORM} platform"
+                sleep time:10, unit: 'SECONDS'
+            }
+        }
+        stage('Run Automation') {
+            steps {
+                echo "Running automation on ${params.BROWSER} browser"
+                sleep time:10, unit: 'SECONDS'
+            }
+        }
+            
+       stage('Deploy') {
+            steps {
+                echo "Deploying on ${params.ENVIRONMENT} server"
+                sleep time:10, unit: 'SECONDS'
+            }
+        }
+    }
+    
+    post{
+        success{
+            echo "Pipeline completed successfully"
+        }
+        failure{
+            echo "Pipeline failed"
+        }
+    }
+ }
+      
